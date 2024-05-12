@@ -17,7 +17,8 @@ spring:
           - id: user-microservice
             uri: lb://user-microservice
             predicates:
-              - Path=/user-microservice/**, /auth/**, /users/**, /api/v1/users/**, /api/v1/**, /
+              # - Path=/user-microservice/**, /auth/**, /users/**, /api/v1/users/**, /api/v1/**, /
+              - Path=/api/v1/**
 
           #  - id: submission-microservice
           #    uri: lb://submission-microservice

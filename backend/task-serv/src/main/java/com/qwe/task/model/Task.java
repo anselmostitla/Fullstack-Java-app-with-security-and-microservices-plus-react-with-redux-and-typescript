@@ -28,6 +28,6 @@ public class Task {
     @Column(name = "assigned_user_id")
     private Integer assignedUserId;
 
-    private TaskStatus status;
+    private TaskStatus status; // PENDING, ASSIGNED AND DONE
     private LocalDateTime deadline;
 }

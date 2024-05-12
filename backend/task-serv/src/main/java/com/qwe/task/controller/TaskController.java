@@ -29,7 +29,9 @@ public class TaskController {
 
     @PostMapping("/tasks")
     private ResponseEntity<Task> createTask(@RequestBody Task task, @RequestHeader("Authorization") String jwt) throws Exception{
+        System.out.println("entry task: " + task.toString());
         UserDto user = userService.getUserProfile(jwt).getBody();
+        System.out.println(user);
         if( user!=null){
             Task taskCreated = taskService.createTask(task, user.getRole());
             return new ResponseEntity<>(taskCreated, HttpStatus.CREATED);
@@ -47,7 +49,8 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    private ResponseEntity<List<Task>> getAllTasks(@RequestHeader("Authorization") String jwt) {
+    // private ResponseEntity<List<Task>> getAllTasks(@RequestHeader("Authorization") String jwt) {
+    private ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
@@ -79,6 +82,7 @@ public class TaskController {
     ) throws Exception{
         // Only ADMIN can update task or everyone?
         UserDto user = userService.getUserProfile(jwt).getBody();
+        System.out.println(task);
         Task updatedTask = taskService.updateTask(taskId, task);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }

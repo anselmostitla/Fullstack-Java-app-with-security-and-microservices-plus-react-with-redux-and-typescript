@@ -71,7 +71,7 @@ public class SubmissionController {
    @PutMapping("/submissions/{submissionId}")
    public ResponseEntity<Submission> acceptOrDeclineSubmission(
            @PathVariable Integer submissionId,
-           @RequestParam("status") String status,
+           @RequestParam("status") Boolean status,
            @RequestHeader("Authorization") String jwt
    ) throws Exception{
       Submission submission = submissionService.acceptDeclineSubmission(submissionId, status);

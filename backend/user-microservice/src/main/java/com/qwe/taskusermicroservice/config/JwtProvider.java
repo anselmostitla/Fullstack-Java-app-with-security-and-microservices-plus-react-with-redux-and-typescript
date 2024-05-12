@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+// READING 3
+
 public class JwtProvider {
    static SecretKey  key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 

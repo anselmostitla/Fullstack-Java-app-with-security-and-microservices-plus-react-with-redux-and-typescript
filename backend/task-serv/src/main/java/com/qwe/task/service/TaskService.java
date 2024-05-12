@@ -23,9 +23,11 @@ public class TaskService {
         if(!requestedRole.equals("ADMIN")){
             throw new Exception("Only ADMIN can create tasks");
         }
+        System.out.println(task.toString());
         task.setStatus(TaskStatus.PENDING);
+        System.out.println(task.toString());
         taskRepository.save(task);
-
+        System.out.println(task.toString());
         return task;
     }
 
@@ -56,7 +58,11 @@ public class TaskService {
         if(task.getDescription()!=null){existingTask.setDescription(task.getDescription());}
         if(task.getImage()!=null){existingTask.setImage(task.getImage());}
         if(task.getStatus()!=null){existingTask.setStatus(task.getStatus());}
-        // if(task.getDeadline()!=null){existingTask.setDeadline(task.getDeadline());}
+        if(task.getDeadline()!=null){existingTask.setDeadline(task.getDeadline());}
+        if(task.getAssignedUserId()!=null){
+            existingTask.setAssignedUserId(task.getAssignedUserId());
+            existingTask.setStatus(TaskStatus.ASSIGNED);
+        }
 
         taskRepository.save(existingTask);
         return existingTask;

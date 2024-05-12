@@ -11,6 +11,6 @@ public interface SubmissionService {
    Submission getTaskSubmissionById(Integer submissionId) throws Exception;
    List<Submission> getAllTaskSubmissions();
    List<Submission> getTaskSubmissionsByTaskId(Integer taskId);
-   Submission acceptDeclineSubmission(Integer id, String status) throws Exception;
+   Submission acceptDeclineSubmission(Integer id, Boolean accept) throws Exception;
 
 }

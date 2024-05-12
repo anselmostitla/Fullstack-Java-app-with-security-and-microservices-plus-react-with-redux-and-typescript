@@ -25,7 +25,7 @@ public class SubmissionServiceImplementation implements SubmissionService {
                  .taskId(taskId)
                  .githubLink(githubLink)
                  .userId(userId)
-                 .status("PENDING")
+                 // .status(TaskStatus.DONE)
                  .submissionTime(LocalDateTime.now())
                  .build();
          System.out.println("In submitTask submission " + submission);
@@ -53,10 +53,10 @@ public class SubmissionServiceImplementation implements SubmissionService {
    }
 
    @Override
-   public Submission acceptDeclineSubmission(Integer id, String status) throws Exception {
+   public Submission acceptDeclineSubmission(Integer id, Boolean accept) throws Exception {
       Submission submission = getTaskSubmissionById(id);
-      submission.setStatus(status);
-      if( status.equals("ACCEPT")){
+
+      if(accept){
          taskService.completeTask(submission.getTaskId());
       }
       return submissionRepository.save(submission);

@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
+// READING 2
 
 @Configuration
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class SecurityConfig{
               .csrf(csrf -> csrf.disable())
               .cors(cors -> cors.configurationSource(corsConfigurationSource()))
               .httpBasic(Customizer.withDefaults())
-              .formLogin(Customizer.withDefaults())
+//              .formLogin(Customizer.withDefaults())
               .authorizeHttpRequests(authorizeHttpRequests ->
                       authorizeHttpRequests
                               .requestMatchers("/api/**").permitAll()
@@ -50,7 +51,11 @@ public class SecurityConfig{
          public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-            corsConfiguration.setAllowedOrigins(Collections.singletonList(""));
+            // corsConfiguration.setAllowedOrigins(Collections.singletonList(""));
+            corsConfiguration.setAllowedOrigins(Arrays.asList(
+               "http://localhost:5173",
+               "https://securitz6.vercel.app/"
+            ));
             corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
             corsConfiguration.setAllowCredentials(true);
             corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));

@@ -1,23 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import React from 'react'
+import App from './App.tsx'
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar.tsx'
-import Home from './pages/Home.tsx'
+import { Provider } from 'react-redux'
+import { store } from './redux/store.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter >
-    <Navbar />
-    <Routes>
-      <Route path='/' element={<Home />}/>
-    </Routes>
-
-
-  </BrowserRouter>  
-
-
-
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
 )

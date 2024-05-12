@@ -29,7 +29,8 @@ public class Submission {
    @Column(name = "user_id")
    private Integer userId;
 
-   private String status = "PENDING";
+   // private String status = "PENDING";
+   private TaskStatus status;
 
    @Column(name = "submission_time")
    private LocalDateTime submissionTime;

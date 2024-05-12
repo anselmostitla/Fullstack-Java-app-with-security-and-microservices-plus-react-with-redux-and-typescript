@@ -6,8 +6,10 @@ import com.qwe.taskusermicroservice.model.User;
 
 import com.qwe.taskusermicroservice.repository.UserRepository;
 import com.qwe.taskusermicroservice.request.LoginRequest;
+import com.qwe.taskusermicroservice.request.SignupRequest;
 import com.qwe.taskusermicroservice.response.AuthResponse;
 import com.qwe.taskusermicroservice.service.CustomerUserServiceImplementation;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +21,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
+
+// READING 1
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthController {
    @Autowired
    private UserRepository userRepository;
@@ -34,21 +40,23 @@ public class AuthController {
    @Autowired
    private CustomerUserServiceImplementation customerUserServiceImplementation;
 
-//   @Autowired
-//   private LoginRequest loginRequest;
-
    @PostMapping("/signup")
-   public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
-
-      String email = user.getEmail();
-      String pass = user.getPass();
-      String name = user.getName();
-      String role = user.getRole();
+   public ResponseEntity<AuthResponse> createUserHandler(@RequestBody SignupRequest signupRequest) throws Exception {
+      System.out.println("signupRequest in AuthController: " + signupRequest.toString());
+      String email = signupRequest.getEmail();
+      String pass = signupRequest.getPass();
+      String name = signupRequest.getName();
+      String role = signupRequest.getRole();
 
       User isEmailExist = userRepository.findByEmail(email);
 
       if(isEmailExist != null){
-         throw new Exception("Email already used");
+         AuthResponse authResponse = new AuthResponse();
+         authResponse.setJwt("");
+         authResponse.setMessage("Email already used");
+         authResponse.setStatus(false);
+         return new ResponseEntity<>(authResponse, HttpStatus.OK);
+         // throw new Exception("Email already used");
       }
 
       // TODO create new user
@@ -69,26 +77,16 @@ public class AuthController {
       authResponse.setJwt(token);
       authResponse.setMessage("Register success");
       authResponse.setStatus(true);
-//
+
       return new ResponseEntity<>(authResponse, HttpStatus.OK);
    }
 
-   @GetMapping("/signin")
+   @PostMapping("/signin")
    public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest loginRequest) throws Exception {
       String email = loginRequest.getEmail();
       String pass = loginRequest.getPass();
 
-//      User user = userRepository.findByEmail(email);
-
       Authentication authentication = authenticate(email, pass);
-
-
-//      if(user == null){
-//         throw new Exception("No USER with such credentials");
-//      }
-//
-//      Authentication authentication = new UsernamePasswordAuthenticationToken(email, passwordEncoder.encode(pass));
-
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -100,10 +98,8 @@ public class AuthController {
       authResponse.setMessage("Login success");
       authResponse.setStatus(true);
 
-
-      return ResponseEntity.ok().body(authResponse);
-
-
+      // return ResponseEntity.ok().body(authResponse);
+      return new ResponseEntity<>(authResponse, HttpStatus.OK);
    }
 
    private Authentication authenticate(String email, String pass) {

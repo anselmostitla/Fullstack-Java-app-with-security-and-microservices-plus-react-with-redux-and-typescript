@@ -11,21 +11,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// READING 2
+
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserController {
 
    @Autowired
    public UserService userService;
 
-   @GetMapping("/profile")
+   @GetMapping("/users/profile")
    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt){
       User user = userService.getUserProfile(jwt);
       // return ResponseEntity.ok().body(user);
       return new ResponseEntity<>(user, HttpStatus.OK);
    }
 
-   @GetMapping("/")
+   @GetMapping("/users")
    public ResponseEntity<List<User>> getUsers(){
       List<User> users = userService.getAllUsers();
       return new ResponseEntity<>(users, HttpStatus.OK);
